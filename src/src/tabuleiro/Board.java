@@ -34,4 +34,20 @@ public class Board {
     public Piece piece(Position position) {
         return pieces[position.getRow()][position.getColumn()];
     }
+
+    public void placePiece(Piece piece, Position position) {
+        pieces[position.getRow()][position.getColumn()] = piece;
+        piece.position = position;
+    }
+
+    private boolean positionExists(int row, int column){
+        return row >= 0 && row < rows && columns >= 0 && column < columns;
+    }
+    public boolean positionExists(Position position){
+        return positionExists(position.getRow(), position.getColumn());
+    }
+
+    public boolean thereIsAPiece(Position position){
+        return piece(position) != null;
+    }
 }
