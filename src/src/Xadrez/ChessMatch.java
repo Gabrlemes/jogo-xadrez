@@ -46,7 +46,7 @@ public class ChessMatch {
         }
 
         if (!board.piece(position).isThereAnyPossibleMove()) {
-            throw new ChessExeption("não existe moviemtno possivel para esta peça no momento.")
+            throw new ChessExeption("não existe moviemtno possivel para esta peça no momento.");
         }
     }
 
