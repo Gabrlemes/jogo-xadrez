@@ -25,10 +25,17 @@ public class ChessMatch {
         return mat;
     }
 
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+        Position position = sourcePosition.toPosition();
+        validateSourcePosition(position);
+        return board.piece(position).possibleMoves();
+    }
+
     public ChessPiece performanceMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
         validateSourcePosition(source);
+        validateTarquetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
         return (ChessPiece) capturedPiece;
     }
@@ -50,12 +57,17 @@ public class ChessMatch {
         }
     }
 
+    private void validateTarquetPosition(Position source, Position target) {
+        if (!board.piece(source).possibleMove(target)) {
+            throw new ChessExeption("a peça escolhida não pode mover para este destino.");
+        }
+    }
+
     private void placeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
     private void initialSetup() {
-        placeNewPiece('c', 1, new Torre(board, Color.WHITE));
         placeNewPiece('c', 2, new Torre(board, Color.WHITE));
         placeNewPiece('d', 2, new Torre(board, Color.WHITE));
         placeNewPiece('e', 2, new Torre(board, Color.WHITE));
