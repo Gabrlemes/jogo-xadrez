@@ -7,7 +7,7 @@ public class Board {
     private Piece[][] pieces;
 
     public Board(int rows, int columns) {
-        if (rows < 1 && columns < 1) {
+        if (rows < 1 || columns < 1) {
             throw new BoardException("Erro em criar o tabuleiro: mínimo de 1 linha e 1 coluna para a criação.");
         }
         this.rows = rows;
@@ -38,7 +38,7 @@ public class Board {
         return pieces[position.getRow()][position.getColumn()];
     }
 
-    //
+    //posição já preenchida por uma peça.
     public void placePiece(Piece piece, Position position) {
         if (thereIsAPiece(position)) {
             throw new BoardException("já existe uma peça na posição: " + position);
@@ -62,7 +62,7 @@ public class Board {
         return aux;
     }
 
-    //precaução contra tabuleiros menosres que 1
+    //precaução contra tabuleiros menores que 1.
 
     private boolean positionExists(int row, int column){
         return row >= 0 && row < rows && columns >= 0 && column < columns;
