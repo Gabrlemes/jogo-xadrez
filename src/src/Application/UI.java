@@ -49,6 +49,14 @@ public class UI {
         }
     }
 
+    public static void printMatch(ChessMatch chessMatch) {
+        printBoard(chessMatch.getPieces());
+        System.out.println();
+        System.out.println("turno " + chessMatch.getTurn());
+        System.out.println("Esperando jogador: " + chessMatch.getCurrentPlayer());
+    }
+
+    //linha horizontal do tabuleiro.
 
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i = 0; i < pieces.length; i++) {
@@ -69,7 +77,7 @@ public class UI {
             }
             System.out.println();
         }
-        System.out.println("  A B C D E F G H");
+        System.out.println(" A B C D E F G H");
     }
 
     private static void printPiece(ChessPiece piece, boolean background) {

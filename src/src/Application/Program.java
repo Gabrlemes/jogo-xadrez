@@ -4,10 +4,7 @@ import Xadrez.ChessExeption;
 import Xadrez.ChessMatch;
 import Xadrez.ChessPiece;
 import Xadrez.ChessPosition;
-import tabuleiro.Board;
-import tabuleiro.Position;
 
-import java.sql.SQLOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -34,7 +31,7 @@ public class Program {
                 System.out.print("destino: ");
                 ChessPosition target = UI.readChessPosition(sc);
 
-                ChessPiece capturedPiece = chessMatch.performanceMove(source, target);
+                ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
             }
             catch (ChessExeption e) {
                 System.out.println(e.getMessage());
