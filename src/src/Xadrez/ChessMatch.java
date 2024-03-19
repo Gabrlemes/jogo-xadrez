@@ -5,6 +5,7 @@ import tabuleiro.Piece;
 import tabuleiro.Position;
 import Xadrez.pieces.*;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class ChessMatch {
     private Board board;
     private int turn;
     private Color currentPlayer;
+    private boolean check;
 
     private List<Piece> pieceOnBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -70,6 +72,17 @@ public class ChessMatch {
         }
 
         return capturedPiece;
+    }
+
+    private void undoMove(Position source, Position target, Piece capturedPiece) {
+        Piece p = board.removePiece(target);
+        board.placePiece(p,source);
+
+        if(capturedPiece != null) {
+        board.placePiece(capturedPiece, target);
+        capturedPieces.remove(capturedPiece);
+        pieceOnBoard.add(capturedPiece);
+        }
     }
 
     private void validateSourcePosition(Position position) {
