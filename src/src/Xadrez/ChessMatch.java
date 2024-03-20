@@ -8,6 +8,8 @@ import Xadrez.pieces.*;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 public class ChessMatch {
@@ -57,6 +59,14 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+
+        if (testCheck(currentPlayer)) {
+            undoMove(source, target, capturedPiece);
+            throw new ChessExeption("Você não pode se por em check");
+        }
+
+        check = (testCheck(opponent(currentPlayer))) ? true : false;
+
         nextTurn();
         return (ChessPiece) capturedPiece;
     }
@@ -109,6 +119,32 @@ public class ChessMatch {
     private void nextTurn() {
         turn++;
         currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    private Color opponent(Color color) {
+        return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    private ChessPiece rei(Color color) {
+        List<Piece> list = pieceOnBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list) {
+            if (p instanceof Rei) {
+                return (ChessPiece)p;
+            }
+        }
+        throw new IllegalStateException("Nâo existe o rei " + color + ".");
+    }
+
+    private boolean testCheck(Color color) {
+        Position reiPosition = rei(color).getChessPosition().toPosition();
+        List<Piece> opponentPiece = pieceOnBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+        for (Piece p : opponentPiece) {
+            boolean[][] mat = p.possibleMoves();
+            if (mat[reiPosition.getRow()][reiPosition.getColumn()]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void placeNewPiece(char column, int row, ChessPiece piece) {

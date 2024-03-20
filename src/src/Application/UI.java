@@ -75,6 +75,7 @@ public class UI {
         System.out.println("  A B C D E F G H");
     }
 
+    //linha vertical
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
         for (int i = 0; i < pieces.length; i++) {
             System.out.print((8-i) + " ");
