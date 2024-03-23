@@ -37,6 +37,10 @@ public class ChessMatch {
         return currentPlayer;
     }
 
+    public boolean getCheck() {
+        return check;
+    }
+
     public ChessPiece[][] getPieces() {
         ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
         for (int i = 0; i < board.getRows(); i++) {
@@ -137,9 +141,9 @@ public class ChessMatch {
 
     private boolean testCheck(Color color) {
         Position reiPosition = rei(color).getChessPosition().toPosition();
-        List<Piece> opponentPiece = pieceOnBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
-        for (Piece p : opponentPiece) {
-            boolean[][] mat = p.possibleMoves();
+        List<Piece>opponentPieces = pieceOnBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+        for (Piece p :opponentPieces) {
+            boolean [][] mat = p.possibleMoves();
             if (mat[reiPosition.getRow()][reiPosition.getColumn()]) {
                 return true;
             }
