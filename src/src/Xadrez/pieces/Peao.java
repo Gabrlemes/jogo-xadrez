@@ -10,11 +10,6 @@ import tabuleiro.Position;
             super(board, color);
         }
 
-        @Override
-        public String toString() {
-            return "P";
-        }
-
         private boolean canMove(Position position) {
             ChessPiece p = (ChessPiece) getBoard().piece(position);
             return p == null || p.getColor() != getColor();
@@ -27,29 +22,56 @@ import tabuleiro.Position;
             Position p = new Position(0, 0);
 
             //movendo para cima.
-            p.setValues(position.getRow() - 1, position.getColumn());
-            if (getBoard().positionExists(p) && canMove(p)) {
-                mat[p.getRow()][p.getColumn()] = true;
-            }
+            if (getColor() == Color.WHITE) {
 
-            //movendo para baixo.
-            p.setValues(position.getRow() + 1, position.getColumn());
-            if (getBoard().positionExists(p) && canMove(p)) {
-                mat[p.getRow()][p.getColumn()] = true;
-            }
+                p.setValues(position.getRow() - 1, position.getColumn());
+                if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
+                //primeiro moviemento 2 casas a frente.
+                p.setValues(position.getRow() - 2, position.getColumn());
+                Position p2 = new Position(position.getRow() -1, position.getColumn());
+                if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p) && getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
 
-            //movendo para esquerda.
-            p.setValues(position.getRow(), position.getColumn() - 1);
-            if (getBoard().positionExists(p) && canMove(p)) {
-                mat[p.getRow()][p.getColumn()] = true;
-            }
+                p.setValues(position.getRow() -1, position.getColumn() -1);
+                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
 
-            //movendo para direita.
-            p.setValues(position.getRow(), position.getColumn() + 1);
-            if (getBoard().positionExists(p) && canMove(p)) {
-                mat[p.getRow()][p.getColumn()] = true;
+                p.setValues(position.getRow() -1, position.getColumn() +1);
+                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
             }
+            else {
+                p.setValues(position.getRow() +1, position.getColumn());
+                if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
+                //primeiro moviemento 2 casas a frente.
+                p.setValues(position.getRow() +2, position.getColumn());
+                Position p2 = new Position(position.getRow() + 1, position.getColumn());
+                if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p) && getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
 
+                p.setValues(position.getRow() +1, position.getColumn() -1);
+                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
+
+                p.setValues(position.getRow() +1, position.getColumn() +1);
+                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                    mat[p.getRow()][p.getColumn()] = true;
+                }
+
+            }
             return mat;
+        }
+        @Override
+        public String toString() {
+            return "P";
         }
     }
