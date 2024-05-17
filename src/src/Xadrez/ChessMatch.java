@@ -99,6 +99,24 @@ public class ChessMatch {
             capturedPieces.add(capturedPiece);
         }
 
+        //movimento especial torre direita
+        if (p instanceof Rei && target.getColumn() == source.getColumn() + 2) {
+            Position sourceT = new Position((source.getRow()), source.getColumn() + 3);
+            Position targetT = new Position((source.getRow()), source.getColumn() + 1);
+            ChessPiece torre = (ChessPiece)board.removePiece(sourceT);
+            board.placePiece(torre, targetT);
+            torre.increaseMoveCount();
+        }
+
+        //movimento especial torre esquerda
+        if (p instanceof Rei && target.getColumn() == source.getColumn() - 2) {
+            Position sourceT = new Position((source.getRow()), source.getColumn() - 4);
+            Position targetT = new Position((source.getRow()), source.getColumn() - 1);
+            ChessPiece torre = (ChessPiece)board.removePiece(sourceT);
+            board.placePiece(torre, targetT);
+            torre.increaseMoveCount();
+        }
+
         return capturedPiece;
     }
 
@@ -111,6 +129,24 @@ public class ChessMatch {
         board.placePiece(capturedPiece, target);
         capturedPieces.remove(capturedPiece);
         pieceOnBoard.add(capturedPiece);
+        }
+
+        //movimento especial torre direita
+        if (p instanceof Rei && target.getColumn() == source.getColumn() + 2) {
+            Position sourceT = new Position((source.getRow()), source.getColumn() + 3);
+            Position targetT = new Position((source.getRow()), source.getColumn() + 1);
+            ChessPiece torre = (ChessPiece)board.removePiece(targetT);
+            board.placePiece(torre, sourceT);
+            torre.decreaseMoveCount();
+        }
+
+        //movimento especial torre esquerda
+        if (p instanceof Rei && target.getColumn() == source.getColumn() - 2) {
+            Position sourceT = new Position((source.getRow()), source.getColumn() - 4);
+            Position targetT = new Position((source.getRow()), source.getColumn() - 1);
+            ChessPiece torre = (ChessPiece)board.removePiece(targetT);
+            board.placePiece(torre, sourceT);
+            torre.decreaseMoveCount();
         }
     }
 
@@ -179,7 +215,6 @@ public class ChessMatch {
                 for (int j = 0; j < board.getColumns(); j++); {
 
                     //problema com J foi renomeado por [i][i] oq deve gerar outro problema. resolver após termino do programa.
-
 
                     if (mat[i][i]) {
                         Position source = ((ChessPiece)p).getChessPosition().toPosition();
