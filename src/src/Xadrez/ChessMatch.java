@@ -19,6 +19,7 @@ public class ChessMatch {
     private Color currentPlayer;
     private boolean check;
     private boolean checkMate;
+    private ChessPiece promoted;
 
     private List<Piece> pieceOnBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -44,6 +45,10 @@ public class ChessMatch {
 
     public boolean getCheckMate(){
         return checkMate;
+    }
+
+    public ChessPiece getPromoted(){
+        return promoted;
     }
 
     public ChessPiece[][] getPieces() {
@@ -77,6 +82,17 @@ public class ChessMatch {
             throw new ChessExeption("Você não pode se por em check");
         }
 
+        ChessPiece movedPiece = (ChessPiece)board.piece(target);
+
+        //movimento especial promoção
+        promoted = null;
+        if(movedPiece instanceof Peao) {
+            if ((movedPiece.getColor() == Color.WHITE && target.getRow() == 0) || (movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
+                promoted = (ChessPiece)board.piece(target);
+                promoted = replacePromotedPiece("Q");
+            }
+        }
+
         check = (testCheck(opponent(currentPlayer))) ? true : false;
 
         if(testCheckMate(opponent(currentPlayer))) {
@@ -86,6 +102,24 @@ public class ChessMatch {
             nextTurn();
         }
         return (ChessPiece) capturedPiece;
+    }
+
+    public ChessPiece replacePromotedPiece(String type){
+        if (promoted == null) {
+            throw new IllegalStateException("não há peça a ser promovida.");
+        }
+        Position pos = promoted.getChessPosition().toPosition();
+        Piece p = board.removePiece(pos);
+        pieceOnBoard.remove(p);
+
+        ChessPiece newPiece = newPiece(type, promoted.getColor());
+        board.placePiece(newPiece, pos);
+        pieceOnBoard.add(newPiece)
+
+    }
+
+    private ChessPiece newPiece(String type, Color color){
+        return new Rainha(board, color);
     }
 
     private Piece makeMove(Position source, Position target) {
