@@ -39,6 +39,17 @@ public class Program {
                 if (capturedPiece != null) {
                     captured.add(capturedPiece);
                 }
+
+
+                if (chessMatch.getPromoted() != null) {
+                    System.out.println("Qual peça deseja para a promoção? (R/T/C/B)");
+                    String type = sc.nextLine().toUpperCase();
+                    while (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+                        System.out.println("Valor invalido, apenas (R/T/C/B)");
+                        type = sc.nextLine().toUpperCase();
+                    }
+                    chessMatch.replacePromotedPiece(type);
+                }
             }
 
             catch (ChessExeption e) {

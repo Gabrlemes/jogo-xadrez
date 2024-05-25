@@ -55,7 +55,7 @@ public class ChessMatch {
         ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
-                   mat[i][j] = (ChessPiece) board.piece(i,j);
+                   mat[i][j] = (ChessPiece) board.piece(i, j);
             }
         }
         return mat;
@@ -109,6 +109,10 @@ public class ChessMatch {
         if (promoted == null) {
             throw new IllegalStateException("não há peça a ser promovida.");
         }
+        if (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+            return promoted;
+        }
+
         Position pos = promoted.getChessPosition().toPosition();
         Piece p = board.removePiece(pos);
         pieceOnBoard.remove(p);
@@ -274,14 +278,14 @@ public class ChessMatch {
     }
 
     private void initialSetup() {
-        placeNewPiece('a', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('b', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('c', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('d', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('e', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('f', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('g', 2, new Peao(board, Color.BLACK));
-        placeNewPiece('h', 2, new Peao(board, Color.BLACK));
+        placeNewPiece('a', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('b', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('c', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('d', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('e', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('f', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('g', 2, new Peao(board, Color.BLACK, this));
+        placeNewPiece('h', 2, new Peao(board, Color.BLACK, this));
         placeNewPiece('h', 1, new Torre(board, Color.BLACK));
         placeNewPiece('a', 1, new Torre(board, Color.BLACK));
         placeNewPiece('b', 1, new Cavalo(board, Color.BLACK));
@@ -291,14 +295,14 @@ public class ChessMatch {
         placeNewPiece('d', 1, new Rei(board, Color.BLACK, this));
         placeNewPiece('e', 1, new Rainha(board, Color.BLACK));
 
-        placeNewPiece('a', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('b', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('c', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('d', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('e', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('f', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('g', 7, new Peao(board, Color.WHITE));
-        placeNewPiece('h', 7, new Peao(board, Color.WHITE));
+        placeNewPiece('a', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('b', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('c', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('d', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('e', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('f', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('g', 7, new Peao(board, Color.WHITE, this));
+        placeNewPiece('h', 7, new Peao(board, Color.WHITE, this));
         placeNewPiece('h', 8, new Torre(board, Color.WHITE));
         placeNewPiece('a', 8, new Torre(board, Color.WHITE));
         placeNewPiece('b', 8, new Cavalo(board, Color.WHITE));
