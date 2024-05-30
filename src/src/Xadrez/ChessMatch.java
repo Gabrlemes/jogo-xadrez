@@ -5,10 +5,8 @@ import tabuleiro.Piece;
 import tabuleiro.Position;
 import Xadrez.pieces.*;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 
@@ -20,6 +18,7 @@ public class ChessMatch {
     private boolean check;
     private boolean checkMate;
     private ChessPiece promoted;
+    private ChessPiece enPassantVulnerable;
 
     private List<Piece> pieceOnBoard = new ArrayList<>();
     private List<Piece> capturedPieces = new ArrayList<>();
@@ -49,6 +48,10 @@ public class ChessMatch {
 
     public ChessPiece getPromoted(){
         return promoted;
+    }
+
+    public ChessPiece getEnPassantVulnerable() {
+        return enPassantVulnerable;
     }
 
     public ChessPiece[][] getPieces() {
@@ -101,6 +104,12 @@ public class ChessMatch {
         else {
             nextTurn();
         }
+        if (movedPiece instanceof Peao && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2)) {
+            enPassantVulnerable = movedPiece;
+        }
+        else {
+            enPassantVulnerable = null;
+        }
         return (ChessPiece) capturedPiece;
     }
 
@@ -109,7 +118,7 @@ public class ChessMatch {
         if (promoted == null) {
             throw new IllegalStateException("não há peça a ser promovida.");
         }
-        if (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+        if (!type.equals("B") && !type.equals("C") && !type.equals("T") & !type.equals("Q")) {
             return promoted;
         }
 
@@ -125,7 +134,10 @@ public class ChessMatch {
     }
 
     private ChessPiece newPiece(String type, Color color){
-        return new Rainha(board, color);
+        if (type.equals("B")) return new Bispo(board, color);
+        if (type.equals("C")) return new Cavalo(board, color);
+        if (type.equals("Q")) return new Rainha(board, color);
+        return new Torre(board, color);
     }
 
     private Piece makeMove(Position source, Position target) {
@@ -155,6 +167,19 @@ public class ChessMatch {
             ChessPiece torre = (ChessPiece)board.removePiece(sourceT);
             board.placePiece(torre, targetT);
             torre.increaseMoveCount();
+        }
+        if (p instanceof Peao) {
+            if (source.getColumn() != target.getColumn() && capturedPiece == null) {
+                Position pawnPosition;
+                if (p.getColor() == Color.WHITE) {
+                    pawnPosition = new Position(target.getRow() + 1, target.getColumn());
+                } else {
+                    pawnPosition = new Position(target.getRow() - 1, target.getColumn());
+                }
+                capturedPiece = board.removePiece(pawnPosition);
+                capturedPieces.add(capturedPiece);
+                pieceOnBoard.remove(capturedPiece);
+            }
         }
 
         return capturedPiece;
@@ -251,18 +276,15 @@ public class ChessMatch {
         List<Piece> list = pieceOnBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
         for (Piece p : list) {
             boolean[][] mat = p.possibleMoves();
-            for (int i = 0; i < board.getRows(); i++) {
-                for (int j = 0; j < board.getColumns(); j++); {
-
-                    //problema com J foi renomeado por [i][i] oq deve gerar outro problema. resolver após termino do programa.
-
-                    if (mat[i][i]) {
+            for (int i=0; i<board.getRows(); i++) {
+                for (int j=0; j<board.getColumns(); j++) {
+                    if (mat[i][j]) {
                         Position source = ((ChessPiece)p).getChessPosition().toPosition();
-                        Position target = new Position(i, i);
+                        Position target = new Position(i, j);
                         Piece capturedPiece = makeMove(source, target);
                         boolean testCheck = testCheck(color);
                         undoMove(source, target, capturedPiece);
-                        if(!testCheck) {
+                        if (!testCheck) {
                             return false;
                         }
                     }
