@@ -40,13 +40,25 @@ import tabuleiro.Position;
                 }
 
                 p.setValues(position.getRow() -1, position.getColumn() -1);
-                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
                     mat[p.getRow()][p.getColumn()] = true;
                 }
 
                 p.setValues(position.getRow() -1, position.getColumn() +1);
-                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
                     mat[p.getRow()][p.getColumn()] = true;
+                }
+
+                // #specialmove en passant branco
+                if (position.getRow() == 3) {
+                    Position left = new Position(position.getRow(), position.getColumn() - 1);
+                    if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+                        mat[left.getRow() - 1][left.getColumn()] = true;
+                    }
+                    Position right = new Position(position.getRow(), position.getColumn() + 1);
+                    if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+                        mat[right.getRow() - 1][right.getColumn()] = true;
+                    }
                 }
             }
             else {
@@ -62,13 +74,25 @@ import tabuleiro.Position;
                 }
 
                 p.setValues(position.getRow() +1, position.getColumn() -1);
-                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
                     mat[p.getRow()][p.getColumn()] = true;
                 }
 
                 p.setValues(position.getRow() +1, position.getColumn() +1);
-                if (getBoard().positionExists(p) && isThereOpponentPeace(p)) {
+                if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
                     mat[p.getRow()][p.getColumn()] = true;
+
+                    // #specialmove en passant preto
+                    if (position.getRow() == 4) {
+                        Position left = new Position(position.getRow(), position.getColumn() - 1);
+                        if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+                            mat[left.getRow() + 1][left.getColumn()] = true;
+                        }
+                        Position right = new Position(position.getRow(), position.getColumn() + 1);
+                        if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+                            mat[right.getRow() + 1][right.getColumn()] = true;
+                        }
+                    }
                 }
 
             }

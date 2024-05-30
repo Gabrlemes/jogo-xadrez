@@ -4,9 +4,7 @@ import Xadrez.ChessMatch;
 import Xadrez.ChessPiece;
 import Xadrez.ChessPosition;
 import Xadrez.Color;
-import Xadrez.ChessPosition;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -72,34 +70,33 @@ public class UI {
     }
 
     //linha horizontal do tabuleiro.
-
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i = 0; i < pieces.length; i++) {
-            System.out.print((8-i) + " ");
+            System.out.print((8 - i) + " ");
             for (int j = 0; j < pieces.length; j++) {
                 printPiece(pieces[i][j], false);
             }
             System.out.println();
         }
-        System.out.println("  A B C D E F G H");
+        System.out.println("  a b c d e f g h");
     }
 
     //linha vertical
     public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
         for (int i = 0; i < pieces.length; i++) {
-            System.out.print((8-i) + " ");
+            System.out.print((8 - i) + " ");
             for (int j = 0; j < pieces.length; j++) {
                 printPiece(pieces[i][j], possibleMoves[i][j]);
             }
             System.out.println();
         }
-        System.out.println(" A B C D E F G H");
+        System.out.println(" a b c d e f g h");
     }
 
     private static void printPiece(ChessPiece piece, boolean background) {
-        if (background) {
-            System.out.print(ANSI_CYAN_BACKGROUND);
-        }
+            if (background) {
+                System.out.print(ANSI_CYAN_BACKGROUND);
+            }
         if (piece == null) {
             System.out.print("-" + ANSI_RESET);
         }

@@ -24,7 +24,6 @@ public class Board {
     }
 
     //posição não encontrada no tabuleiro.
-
     public Piece piece(int row, int column) {
         if (!positionExists(row, column)) {
             throw new BoardException("Posição não encontrada no tabuleiro.");
@@ -48,7 +47,6 @@ public class Board {
     }
 
     //removedor de peças
-
     public Piece removePiece(Position position) {
         if (!positionExists(position)) {
             throw new BoardException("posição inexistente no tabuleiro. ");
@@ -63,7 +61,6 @@ public class Board {
     }
 
     //precaução contra tabuleiros menores que 1.
-
     private boolean positionExists(int row, int column){
         return row >= 0 && row < rows && columns >= 0 && column < columns;
     }

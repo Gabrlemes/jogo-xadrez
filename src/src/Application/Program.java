@@ -29,7 +29,6 @@ public class Program {
                 boolean[][] possibleMoves = chessMatch.possibleMoves(source);
                 UI.clearScreen();
                 UI.printBoard(chessMatch.getPieces(), possibleMoves);
-
                 System.out.println();
                 System.out.print("Destino: ");
                 ChessPosition target = UI.readChessPosition(sc);
@@ -44,14 +43,13 @@ public class Program {
                 if (chessMatch.getPromoted() != null) {
                     System.out.println("Qual peça deseja para a promoção? (R/T/C/B)");
                     String type = sc.nextLine().toUpperCase();
-                    while (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+                    while (!type.equals("B") && !type.equals("C") && !type.equals("R") & !type.equals("T")) {
                         System.out.println("Valor invalido, apenas (R/T/C/B)");
                         type = sc.nextLine().toUpperCase();
                     }
                     chessMatch.replacePromotedPiece(type);
                 }
             }
-
             catch (ChessExeption e) {
                 System.out.println(e.getMessage());
                 sc.nextLine();

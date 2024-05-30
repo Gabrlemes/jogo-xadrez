@@ -116,9 +116,9 @@ public class ChessMatch {
     //peao virando rainha
     public ChessPiece replacePromotedPiece(String type){
         if (promoted == null) {
-            throw new IllegalStateException("não há peça a ser promovida.");
+            throw new IllegalStateException("não há peça para ser promovida.");
         }
-        if (!type.equals("B") && !type.equals("C") && !type.equals("T") & !type.equals("Q")) {
+        if (!type.equals("B") && !type.equals("C") && !type.equals("T") & !type.equals("R")) {
             return promoted;
         }
 
@@ -136,7 +136,7 @@ public class ChessMatch {
     private ChessPiece newPiece(String type, Color color){
         if (type.equals("B")) return new Bispo(board, color);
         if (type.equals("C")) return new Cavalo(board, color);
-        if (type.equals("Q")) return new Rainha(board, color);
+        if (type.equals("R")) return new Rainha(board, color);
         return new Torre(board, color);
     }
 

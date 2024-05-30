@@ -108,7 +108,5 @@ public class Rei extends ChessPiece {
         }
 
         return mat;
-
     }
-
 }
