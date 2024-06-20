@@ -1,0 +1,1 @@
+-erro em movimentação não finalizado-
